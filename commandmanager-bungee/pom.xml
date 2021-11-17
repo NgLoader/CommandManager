@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.ngloader</groupId>
+		<artifactId>commandmanager</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<artifactId>commandmanager-bungee</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.ngloader</groupId>
+			<artifactId>commandmanager-api-bungee</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.ngloader</groupId>
+			<artifactId>commandmanager-core</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>
