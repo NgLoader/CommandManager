@@ -60,6 +60,7 @@ jobs:
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml --batch-mode -Drevision=$RELEASE_VERSION
       env:
         GITHUB_TOKEN: ${{ github.token }}
+        MAVEN_OPTS: -Dmaven.wagon.httpconnectionManager.ttlSeconds=25 -Dmaven.wagon.http.retryHandler.count=3
 
     - uses: ncipollo/release-action@v1
       with:
