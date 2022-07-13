@@ -8,7 +8,7 @@ import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 
-public class ArgumentTypes {
+public interface CoreArgumentTypes {
 
 	public static StringArgumentType greedyString() {
 		return StringArgumentType.greedyString();

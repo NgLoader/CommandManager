@@ -2,24 +2,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.ngloader</groupId>
-		<artifactId>commandmanager-api</artifactId>
+		<artifactId>commandmanager-spigot-nms</artifactId>
 		<version>${revision}</version>
 	</parent>
 
-	<artifactId>commandmanager-api-bukkit</artifactId>
+	<artifactId>commandmanager-spigot-nms-api</artifactId>
 
 	<dependencies>
-		<dependency>
-			<groupId>de.ngloader</groupId>
-			<artifactId>commandmanager-api-core</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.mojang</groupId>
-			<artifactId>brigadier</artifactId>
-			<scope>compile</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>

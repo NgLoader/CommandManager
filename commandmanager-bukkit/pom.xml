@@ -19,9 +19,14 @@
 		</dependency>
 		<dependency>
 			<groupId>de.ngloader</groupId>
-			<artifactId>commandmanager-api-bungee</artifactId>
+			<artifactId>commandmanager-core</artifactId>
 			<version>${revision}</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+			<classifier>remapped-mojang</classifier>
 		</dependency>
 	</dependencies>
 

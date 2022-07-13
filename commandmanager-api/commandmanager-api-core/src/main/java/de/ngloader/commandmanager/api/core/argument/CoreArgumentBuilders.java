@@ -4,7 +4,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 
-public class ArgumentBuilders {
+public interface CoreArgumentBuilders {
 
 	public static <S> LiteralArgumentBuilder<S> literal(String name) {
 		return LiteralArgumentBuilder.literal(name);
