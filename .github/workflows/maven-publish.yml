@@ -53,9 +53,8 @@ jobs:
         mv commandmanager-bungee/target/commandmanager-*.jar ./
 
     - uses: s4u/maven-settings-action@v2.5.0
-            with:
-              servers: '[
-              {"id": "github","configuration": {"httpHeaders": {"property": {"name": "Authorization","value": "Bearer ${{ secrets.GITHUB_TOKEN }}"}}}}]'
+      with:
+        servers: '[{"id": "github","configuration": {"httpHeaders": {"property": {"name": "Authorization","value": "Bearer ${{ secrets.GITHUB_TOKEN }}"}}}}]'
 
     - name: Publish to GitHub Packages Apache Maven
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml --batch-mode -Drevision=$RELEASE_VERSION
