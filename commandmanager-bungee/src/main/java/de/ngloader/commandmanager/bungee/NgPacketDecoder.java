@@ -31,8 +31,7 @@ public class NgPacketDecoder extends MessageToMessageDecoder<PacketWrapper> {
 			return;
 		}
 
-		if (msg.packet instanceof TabCompleteRequest) {
-			TabCompleteRequest packet = (TabCompleteRequest) msg.packet;
+		if (msg.packet instanceof TabCompleteRequest packet) {
 			StringReader cursor = new StringReader(packet.getCursor());
 			if (cursor.canRead() && cursor.peek() == '/') {
 				cursor.skip();

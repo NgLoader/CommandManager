@@ -4,7 +4,7 @@ import java.util.Collections;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.craftbukkit.v1_17_R1.command.VanillaCommandWrapper;
+import org.bukkit.craftbukkit.v1_19_R1.command.VanillaCommandWrapper;
 
 import com.google.common.base.Joiner;
 import com.mojang.brigadier.tree.CommandNode;

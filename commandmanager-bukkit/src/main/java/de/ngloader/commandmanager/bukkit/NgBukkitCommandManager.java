@@ -22,13 +22,11 @@ import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public class NgBukkitCommandManager extends NgCommandManager<CommandSender> implements CommandManager {
 
 	private static Component fromMessage(Message message) {
-		return (Component) (message instanceof Component ? (Component) message : new TextComponent(message.getString()));
+		return (Component) (message instanceof Component ? (Component) message : Component.literal(message.getString()));
 	}
 
 	private SimpleCommandMap commandMap;
@@ -62,29 +60,28 @@ public class NgBukkitCommandManager extends NgCommandManager<CommandSender> impl
 
 			if (e.getInput() != null && e.getCursor() >= 0) {
 				int length = Math.min(e.getInput().length(), e.getCursor());
-				MutableComponent component = new TextComponent("")
-						.withStyle(ChatFormatting.GRAY)
-						.withStyle((modifier) -> modifier.withClickEvent(new ClickEvent(Action.SUGGEST_COMMAND, label)));
+				MutableComponent component = Component.literal("").withStyle(ChatFormatting.GRAY).withStyle(
+						(modifier) -> modifier.withClickEvent(new ClickEvent(Action.SUGGEST_COMMAND, label)));
 				if (length > 10) {
 					component.append("...");
 				}
 
 				component.append(e.getInput().substring(Math.max(0, length - 10), length));
 				if (length < e.getInput().length()) {
-					MutableComponent errorComponent = new TextComponent(e.getInput().substring(length))
+					MutableComponent errorComponent = Component.literal(e.getInput().substring(length))
 							.withStyle(new ChatFormatting[] { ChatFormatting.RED, ChatFormatting.UNDERLINE });
 					component.append(errorComponent);
 				}
 
-				component.append(new TranslatableComponent("command.context.here")
+				component.append(Component.translatable("command.context.here")
 						.withStyle(new ChatFormatting[] { ChatFormatting.RED, ChatFormatting.ITALIC }));
 
 				sender.sendFailure(component);
 			}
 		} catch (Exception e) {
-			TextComponent component = new TextComponent(
+			Component component = Component.literal(
 					e.getMessage() == null ? e.getClass().getName() : e.getMessage());
-			sender.sendFailure(new TranslatableComponent("command.failed").withStyle(
+			sender.sendFailure(Component.translatable("command.failed").withStyle(
 					modifier -> modifier.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, component))));
 		}
 		return 0;
