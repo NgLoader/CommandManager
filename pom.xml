@@ -81,9 +81,9 @@
 
 	<distributionManagement>
 		<repository>
-			<id>nexus</id>
-			<name>Nexus</name>
-			<url>https://nexus.wuffy.eu/repository/maven-releases</url>
+			<id>github</id>
+			<name>GitHub NgLoader Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/NgLoader/CommandManager</url>
 		</repository>
 	</distributionManagement>
 
