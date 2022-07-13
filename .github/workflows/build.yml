@@ -50,7 +50,7 @@ jobs:
     - name: Build
       run: |
         mvn clean package --batch-mode --also-make -Drevision=$BUILD_VERSION
-        mv commandmanager-spigot/target/commandmanager-*.jar ./
+        mv commandmanager-bukkit/target/commandmanager-*.jar ./
         mv commandmanager-bungee/target/commandmanager-*.jar ./
     - name: Upload artifacts
       uses: actions/upload-artifact@v2

@@ -65,7 +65,7 @@ jobs:
     - name: Build with Maven
       run: |
         mvn -B package --file pom.xml --batch-mode -Drevision=$RELEASE_VERSION
-        mv commandmanager-spigot/target/commandmanager-*.jar ./
+        mv commandmanager-bukkit/target/commandmanager-*.jar ./
         mv commandmanager-bungee/target/commandmanager-*.jar ./
 
     - name: Publish to GitHub Packages Apache Maven
