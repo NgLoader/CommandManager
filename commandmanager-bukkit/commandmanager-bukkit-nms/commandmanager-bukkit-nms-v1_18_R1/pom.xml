@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>de.ngloader</groupId>
-    <artifactId>commandmanager-spigot</artifactId>
+    <artifactId>commandmanager-bukkit-nms</artifactId>
     <version>${revision}</version>
   </parent>
-  <artifactId>commandmanager-spigot-plugin</artifactId>
+  <artifactId>commandmanager-bukkit-nms-v1_18_R1</artifactId>
 </project>

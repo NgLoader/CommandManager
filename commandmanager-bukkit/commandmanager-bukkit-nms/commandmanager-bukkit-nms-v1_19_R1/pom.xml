@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.ngloader</groupId>
+		<artifactId>commandmanager-bukkit-nms</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<artifactId>commandmanager-bukkit-nms-v1_19_R1</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.ngloader</groupId>
+			<artifactId>commandmanager-bukkit-nms-api</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.ngloader</groupId>
+			<artifactId>commandmanager-api-bukkit</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.ngloader</groupId>
+			<artifactId>commandmanager-core</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mojang</groupId>
+			<artifactId>brigadier</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+			<version>1.19-R0.1-SNAPSHOT</version>
+			<classifier>remapped-mojang</classifier>
+		</dependency>
+	</dependencies>
+</project>

@@ -2,8 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>de.ngloader</groupId>
-    <artifactId>commandmanager</artifactId>
+    <artifactId>commandmanager-bukkit</artifactId>
     <version>${revision}</version>
   </parent>
   <artifactId>commandmanager-bukkit-nms</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>commandmanager-bukkit-nms-api</module>
+  	<module>commandmanager-bukkit-nms-v1_18_R1</module>
+  	<module>commandmanager-bukkit-nms-v1_19_R1</module>
+  </modules>
 </project>
