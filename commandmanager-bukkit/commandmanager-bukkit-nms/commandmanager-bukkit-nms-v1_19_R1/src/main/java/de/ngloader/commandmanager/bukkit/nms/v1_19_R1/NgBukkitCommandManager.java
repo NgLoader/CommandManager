@@ -1,11 +1,9 @@
-package de.ngloader.commandmanager.bukkit;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+package de.ngloader.commandmanager.bukkit.nms.v1_19_R1;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.craftbukkit.v1_19_R1.CraftServer;
 
 import com.mojang.brigadier.Message;
 import com.mojang.brigadier.StringReader;
@@ -14,11 +12,9 @@ import com.mojang.brigadier.tree.CommandNode;
 
 import de.ngloader.commandmanager.api.bukkit.CommandManager;
 import de.ngloader.commandmanager.core.NgCommandManager;
-import de.ngloader.commandmanager.core.ReflectionUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
@@ -33,14 +29,7 @@ public class NgBukkitCommandManager extends NgCommandManager<CommandSender> impl
 
 	public NgBukkitCommandManager() {
 		super(new NgCommandDispatcher());
-		((NgCommandDispatcher) this.getDispatcher()).setManager(this);
-
-		try {
-			Method methodGetCommandMap = ReflectionUtil.getMethod(MCReflectionUtil.getCraftBukkitClass("CraftServer"), "getCommandMap");
-			this.commandMap = (SimpleCommandMap) methodGetCommandMap.invoke(Bukkit.getServer());
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-		}
+		this.commandMap = ((CraftServer) Bukkit.getServer()).getCommandMap();
 	}
 
 	void registerCommand(CommandNode<CommandSender> command) {
@@ -61,7 +50,7 @@ public class NgBukkitCommandManager extends NgCommandManager<CommandSender> impl
 			if (e.getInput() != null && e.getCursor() >= 0) {
 				int length = Math.min(e.getInput().length(), e.getCursor());
 				MutableComponent component = Component.literal("").withStyle(ChatFormatting.GRAY).withStyle(
-						(modifier) -> modifier.withClickEvent(new ClickEvent(Action.SUGGEST_COMMAND, label)));
+						(modifier) -> modifier.withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, label)));
 				if (length > 10) {
 					component.append("...");
 				}

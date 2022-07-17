@@ -84,7 +84,7 @@ public class NgCommandManager<T> implements AbstractCommandManager<T> {
 		} else {
 			throw new IllegalArgumentException(
 					"Unable to register command in class \"" + method.getClass().getSimpleName()
-							+ "\"! Parameter count is zero or argument is not CommandDispatcher");
+							+ "\"! Parameter count is zero or argument type is not CommandDispatcher");
 		}
 	}
 

@@ -1,4 +1,4 @@
-package de.ngloader.commandmanager.bukkit;
+package de.ngloader.commandmanager.bukkit.nms.v1_19_R1;
 
 import org.bukkit.command.CommandSender;
 

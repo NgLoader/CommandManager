@@ -11,16 +11,19 @@ import com.mojang.brigadier.StringReader;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundCommandSuggestionsPacket;
+import net.minecraft.network.protocol.game.ServerboundCommandSuggestionPacket;
 
 public class NgPacketDecoder extends MessageToMessageDecoder<Object> {
 
 	private final CommandDispatcher<CommandSender> dispatcher;
 	private final Player player;
 
-	private final Object connection;
+	private final Connection connection;
 
-	public NgPacketDecoder(NgCommandPlugin plugin, Player player, Object connection) {
-		this.dispatcher = plugin.getCommandManager().getDispatcher();
+	public NgPacketDecoder(CommandDispatcher<CommandSender> dispatcher, Player player, Connection connection) {
+		this.dispatcher = dispatcher;
 		this.connection = connection;
 		this.player = player;
 	}
@@ -32,8 +35,8 @@ public class NgPacketDecoder extends MessageToMessageDecoder<Object> {
 			return;
 		}
 
-		if (NMSWrapper.CLASS_SERVERBOUND_COMMAND_SUGGESTION_PACKET.isInstance(msg)) {
-			StringReader cursor = new StringReader((String) NMSWrapper.METHOD_GET_SERVERBOUND_COMMAND_SUGGESTION_PACKET_COMMAND.invoke(msg));
+		if (msg instanceof ServerboundCommandSuggestionPacket packet) {
+			StringReader cursor = new StringReader(packet.getCommand());
 			if (cursor.canRead() && cursor.peek() == '/') {
 				cursor.skip();
 			}
@@ -47,9 +50,7 @@ public class NgPacketDecoder extends MessageToMessageDecoder<Object> {
 
 				if (this.player.isOnline() && !suggestions.isEmpty()) {
 					try {
-						int id = (int) NMSWrapper.METHOD_GET_SERVERBOUND_COMMAND_SUGGESTION_PACKET_ID.invoke(msg);
-						Object packet = NMSWrapper.CONSTRUCTOR_SERVERBOUND_COMMAND_SUGGESTION_PACKET.newInstance(id, suggestions);
-						NMSWrapper.METHOD_CONNECTION_SEND.invoke(this.connection, packet);
+						this.connection.send(new ClientboundCommandSuggestionsPacket(packet.getId(), suggestions));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
