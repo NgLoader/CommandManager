@@ -41,4 +41,8 @@ public class MCReflectionUtil extends ReflectionUtil {
 			return null;
 		}
 	}
+
+	public static String getServerVersion() {
+		return SERVER_VERSION;
+	}
 }

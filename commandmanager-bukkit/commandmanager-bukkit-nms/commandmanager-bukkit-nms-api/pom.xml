@@ -10,6 +10,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>de.ngloader</groupId>
+			<artifactId>commandmanager-api-bukkit</artifactId>
+			<version>${revision}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.mojang</groupId>
 			<artifactId>brigadier</artifactId>
 			<scope>provided</scope>

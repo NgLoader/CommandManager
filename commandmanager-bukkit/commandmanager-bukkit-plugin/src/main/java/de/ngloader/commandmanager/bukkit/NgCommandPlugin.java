@@ -17,7 +17,8 @@ public class NgCommandPlugin extends JavaPlugin implements CommandManagerPlugin,
 
 	@Override
 	public void onLoad() {
-		this.commandManager = new NgBukkitCommandManager();
+		this.api = NMSApiUtil.newInstance();
+		this.commandManager = api.getCommandManager();
 	}
 
 	@Override
@@ -32,6 +33,6 @@ public class NgCommandPlugin extends JavaPlugin implements CommandManagerPlugin,
 
 	@EventHandler
 	public void onLogin(PlayerJoinEvent event) {
-		this.api.inject(this.commandManager.getDispatcher(), event.getPlayer());
+		this.api.inject(event.getPlayer());
 	}
 }
