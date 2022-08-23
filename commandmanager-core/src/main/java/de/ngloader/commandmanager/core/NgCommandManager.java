@@ -3,7 +3,12 @@ package de.ngloader.commandmanager.core;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.StringReader;
@@ -17,6 +22,8 @@ import de.ngloader.commandmanager.api.core.BrigadierCommand;
 public class NgCommandManager<T> implements AbstractCommandManager<T> {
 
 	private final CommandDispatcher<T> dispatcher;
+
+	private final Map<Object, List<String>> registeredCommands = new HashMap<>();
 
 	public NgCommandManager() {
 		this.dispatcher = new CommandDispatcher<>();
@@ -36,28 +43,48 @@ public class NgCommandManager<T> implements AbstractCommandManager<T> {
 
 	@Override
 	public void registerObject(Object object) {
+		List<String> children = this.registeredCommands.get(object);
+		if (children == null) {
+			children = new ArrayList<>();
+			this.registeredCommands.put(object, children);
+		}
+
 		for (Method method : object.getClass().getMethods()) {
 			if (method.getAnnotationsByType(BrigadierCommand.class).length == 1 && !Modifier.isStatic(method.getModifiers())) {
-				this.registerMethod(method, object);
+				children.addAll(this.registerMethod(method, object));
 			}
 		}
 	}
 
 	@Override
 	public void registerClass(Class<?> clazz) {
+		List<String> children = this.registeredCommands.get(clazz);
+		if (children == null) {
+			children = new ArrayList<>();
+			this.registeredCommands.put(clazz, children);
+		}
+
 		for (Method method : clazz.getMethods()) {
 			if (method.getAnnotationsByType(BrigadierCommand.class).length == 1 && Modifier.isStatic(method.getModifiers())) {
-				this.registerMethod(method, null);
+				children.addAll(this.registerMethod(method, null));
 			}
 		}
 	}
 
 	@Override
 	public void unregister(Object object) {
+		List<String> children = this.registeredCommands.get(object);
+		if (children != null) {
+			children.forEach(this::unregister);
+		}
 	}
 
 	@Override
 	public void unregister(Class<?> clazz) {
+		List<String> children = this.registeredCommands.get(clazz);
+		if (children != null) {
+			children.forEach(this::unregister);
+		}
 	}
 
 	@Override
@@ -73,19 +100,31 @@ public class NgCommandManager<T> implements AbstractCommandManager<T> {
 		this.unregister(node.getName());
 	}
 
-	private void registerMethod(Method method, Object instance) {
+	private List<String> registerMethod(Method method, Object instance) {
 		if (method.getParameterCount() == 1
 				&& CommandDispatcher.class.isAssignableFrom(method.getParameters()[0].getType())) {
 			try {
+				Set<String> childrenExist = this.getCurrentChildren();
 				method.invoke(instance, this.dispatcher);
+				List<String> childrenAdded = new ArrayList<>(this.getCurrentChildren());
+				childrenAdded.removeAll(childrenExist);
+				return Collections.unmodifiableList(childrenAdded);
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
+				throw new IllegalArgumentException(
+						"Unable to register command in class \"" + method.getClass().getSimpleName()
+								+ "\"!", e);
 			}
 		} else {
 			throw new IllegalArgumentException(
 					"Unable to register command in class \"" + method.getClass().getSimpleName()
 							+ "\"! Parameter count is zero or argument type is not CommandDispatcher");
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private Set<String> getCurrentChildren() {
+		Map<String, ?> children = ((Map<String, ?>) ReflectionUtil.getField(CommandNode.class, this.dispatcher.getRoot(), "children"));
+		return children.keySet();
 	}
 
 	@Override
